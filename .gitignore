@@ -1,4 +1,5 @@
 app/supervisord.pid
+ssl/
 venv/
 *.pyc
 __pycache__/

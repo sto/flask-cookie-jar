@@ -11,7 +11,11 @@ navegador y muestra las que recibe del cliente.
 La aplicación está preparada para ejecutarse en el contenedor
 [uwsgi-nginx-flask](https://hub.docker.com/r/tiangolo/uwsgi-nginx-flask) y
 lanza un segundo contenedor que hace de proxy inverso empleando la imagen
-[tls-proxy](https://hub.docker.com/r/flaccid/tls-proxy)
+[tls-proxy](https://hub.docker.com/r/flaccid/tls-proxy).
+
+Para generar los certificados del proxy usamos un contenedor `alpine` que nos
+proporciona la orden `openssl` similar al que hay en
+https://hub.docker.com/r/frapsoft/openssl/.
 
 ## Ejecución
 
