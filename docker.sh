@@ -53,7 +53,7 @@ dev)
                $TLS_PORTS --name "$TLS_NAME" "$TLS_IMAGE" $TLS_CMD
 ;;
 logs)
-    docker logs -f "$APP_NAME"
+    docker $@ "$APP_NAME"
 ;;
 reload)
     docker exec "$APP_NAME" touch /run/uwsgi.reload
