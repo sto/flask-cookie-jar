@@ -1,6 +1,7 @@
 #!/bin/sh
 
 BROWSER="firefox"
+BROWSER_ARGS="--devtools --no-remote --private-window"
 
 HTTP_DOCKER_NAME="flask-cookiejar-app"
 HTTPS_DOCKER_NAME="flask-cookiejar-tls"
@@ -46,7 +47,15 @@ export LD_PRELOAD
 export NSS_WRAPPER_HOSTS
 
 case "$1" in
-	""|http) update_wrapper_hosts; exec $BROWSER $SERVER_HTTP_URL;;
-	https)   update_wrapper_hosts; exec $BROWSER $SERVER_HTTPS_URL;;
-	*)       echo "Usage: $0 [http|https]";;
+""|http)
+	update_wrapper_hosts;
+	exec $BROWSER $BROWSER_ARGS $SERVER_HTTP_URL
+	;;
+https)
+	update_wrapper_hosts;
+	exec $BROWSER $BROWSER_ARGS $SERVER_HTTPS_URL
+	;;
+*)
+	echo "Usage: $0 [http|https]"
+	;;
 esac
