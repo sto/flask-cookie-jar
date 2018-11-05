@@ -7,78 +7,80 @@
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"
         type="text/css">
-  <title>Cookie Management Demo</title>
+  <title>Flask Cookie Jar</title>
   <script type="text/javascript"
-		  src="{{ url_for('static', filename='cookies.js') }}"></script>
+          src="{{ url_for('static', filename='cookies.js') }}"></script>
 </head>
-<body>
+<body> 
+  <a href="https://github.com/sto/flask-cookie-jar" target="_blank">
+	<img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="{{ url_for('static', filename='forkme_right_green.png') }}"
+		 alt="Fork me on GitHub"></a>
   <div class="wrapper">
-    <h1>Demo gestión cookies</h1>
-	<p>Aplicación que ajusta <i>cookies</i> de distintos tipos y visualiza
-	valores y número de veces que se han visualizado</p>
-	<p>[
-		<a href="{{ url_for('index') }}">Página principal</a>
-		|
-		<a href="{{ url_for('cookie_path') }}">Ruta cookies</a>
-		|
-		<a href="" onclick="jsCookieNamesAlert()">Cookies visibles desde JS</a>
-		|
-		<a href="" onclick="jsSetCookiePrompt()">Añadir cookie desde JS</a>
-		|
-		<a href="" onclick="jsDelCookiePrompt()">Borrar cookie desde JS</a>
-		|
-		<a href="{%
-			if request.is_secure or 
-				request.environ['HTTP_X_FORWARDED_PROTO'] == 'https' %}{{
-					request.url | replace('https:', 'http:')
-					| replace('-tls', '-app')
-	    }}{% else %}{{
-			request.url | replace('http:', 'https:') | replace('-app', '-tls')
-		}}{% endif %}">Cambiar protocolo y host</a>
-	]</p>
-	{% if new_cookies_info|length > 0 %}
-	<h2>Cookies nuevas (ajustadas por la aplicación en esta petición)</h2>
-	<table>
-		<tr>
-			<th>Cookie</th>
-			<th>Valor</th>
-			<th>Flags</th>
-		</tr>
-		{% for cookie in new_cookies_info | sort %}
-		<tr>
-			<td><tt>{{ cookie }}</tt></td>
-			<td><tt>{{ new_cookies_info[cookie]['value']}}</tt></td>
-			<td><tt>{{ new_cookies_info[cookie]['flags']}}</tt></td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% endif %}
-	{% if old_cookies_info|length > 0 %}
-	<h2>Cookies antiguas (ajustadas anteriormente por la aplicación)</h2>
-	<table>
-		<tr>
-			<th>Cookie</th>
-			<th>Valor</th>
-			<th>Vistas</th>
-		</tr>
-		{% for cookie in old_cookies_info | sort %}
-		<tr>
-			<td><tt>{{ cookie }}</tt></td>
-			<td><tt>{{ old_cookies_info[cookie]['value']}}</tt></td>
-			<td>{{ old_cookies_info[cookie]['views']}}</td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% endif %}
-	{% if xtra_cookies|length > 0 %}
-	<h2>Otras cookies (no gestionadas por la aplicación)</h2>
-	<table>
-		<tr><th>Cookie</th><th>Valor</th></tr>
-		{% for cookie in xtra_cookies | sort %}
-		<tr><td>{{ cookie }}</td><td>{{ request.cookies[cookie] }}</td></tr>
-		{% endfor %}
-	</table>
-	{% endif %}
+	<h1>Flask Cookie Jar</h1>
+    <p>[
+        <a href="{{ url_for('index') }}">Página principal</a>
+        |
+        <a href="{{ url_for('cookie_path') }}">Ruta cookies</a>
+        |
+        <a href="" onclick="jsCookieNamesAlert()">Cookies visibles desde JS</a>
+        |
+        <a href="" onclick="jsSetCookiePrompt()">Añadir cookie desde JS</a>
+        |
+        <a href="" onclick="jsDelCookiePrompt()">Borrar cookie desde JS</a>
+        |
+        <a href="{%
+            if request.is_secure or 
+                request.environ['HTTP_X_FORWARDED_PROTO'] == 'https' %}{{
+                    request.url | replace('https:', 'http:')
+                    | replace('-tls', '-app')
+        }}{% else %}{{
+            request.url | replace('http:', 'https:') | replace('-app', '-tls')
+        }}{% endif %}">Cambiar protocolo y host</a>
+    ]</p>
+    {% if new_cookies_info|length > 0 %}
+    <h2>Cookies nuevas (ajustadas por la aplicación en esta petición)</h2>
+	<p><table>
+        <tr>
+            <th>Cookie</th>
+            <th>Valor</th>
+            <th>Flags</th>
+        </tr>
+        {% for cookie in new_cookies_info | sort %}
+        <tr>
+            <td><tt>{{ cookie }}</tt></td>
+            <td><tt>{{ new_cookies_info[cookie]['value']}}</tt></td>
+            <td><tt>{{ new_cookies_info[cookie]['flags']}}</tt></td>
+        </tr>
+        {% endfor %}
+	</table></p>
+    {% endif %}
+    {% if old_cookies_info|length > 0 %}
+    <h2>Cookies antiguas (ajustadas anteriormente por la aplicación)</h2>
+	<p><table>
+        <tr>
+            <th>Cookie</th>
+            <th>Valor</th>
+            <th>Vistas</th>
+        </tr>
+        {% for cookie in old_cookies_info | sort %}
+        <tr>
+            <td><tt>{{ cookie }}</tt></td>
+            <td><tt>{{ old_cookies_info[cookie]['value']}}</tt></td>
+            <td>{{ old_cookies_info[cookie]['views']}}</td>
+        </tr>
+        {% endfor %}
+	</table></p>
+    {% endif %}
+    {% if xtra_cookies|length > 0 %}
+    <h2>Otras cookies (no gestionadas por la aplicación)</h2>
+	<p><table>
+        <tr><th>Cookie</th><th>Valor</th></tr>
+        {% for cookie in xtra_cookies | sort %}
+        <tr><td>{{ cookie }}</td><td>{{ request.cookies[cookie] }}</td></tr>
+        {% endfor %}
+	</table></p>
+    {% endif %}
   </div>
 </body>
 </html>

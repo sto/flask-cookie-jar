@@ -2,14 +2,14 @@
 
 set -e
 
-APP_NAME="flask-cookiejar-app"
+APP_NAME="flask-cookie-jar-app"
 APP_DEV_ENV="-e FLASK_APP=main -e FLASK_DEBUG=1 -e FLASK_ENVIRONMENT=development"
 APP_DEV_CMD="flask run --host=0.0.0.0 --port=80"
 APP_RUN_ENV="-e STATIC_PATH=/app/static"
 APP_VMAP="$(pwd)/app:/app"
 APP_IMAGE="tiangolo/uwsgi-nginx-flask:python3.6-alpine3.7"
 
-TLS_NAME="flask-cookiejar-tls"
+TLS_NAME="flask-cookie-jar-tls"
 TLS_FQDN="$TLS_NAME.docker.local"
 TLS_ENV="-e ENABLE_WEBSOCKET=true -e FORCE_HTTPS=true -e SERVER_NAME=$TLS_FQDN"
 TLS_PORTS="-p 127.0.0.1:80:80 -p 127.0.0.1:443:443"

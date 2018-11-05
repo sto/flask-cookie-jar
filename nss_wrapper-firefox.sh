@@ -1,10 +1,10 @@
 #!/bin/sh
 
 BROWSER="firefox"
-BROWSER_ARGS="--devtools --no-remote --private-window"
+BROWSER_ARGS="--no-remote --private-window"
 
-HTTP_DOCKER_NAME="flask-cookiejar-app"
-HTTPS_DOCKER_NAME="flask-cookiejar-tls"
+HTTP_DOCKER_NAME="flask-cookie-jar-app"
+HTTPS_DOCKER_NAME="flask-cookie-jar-tls"
 DOCKER_DOMAIN="docker.local"
 HTTP_DOCKER_FQDN="$HTTP_DOCKER_NAME.$DOCKER_DOMAIN"
 HTTPS_DOCKER_FQDN="$HTTPS_DOCKER_NAME.$DOCKER_DOMAIN"
@@ -43,19 +43,27 @@ update_wrapper_hosts() {
 	done
 }
 
-export LD_PRELOAD
-export NSS_WRAPPER_HOSTS
-
 case "$1" in
-""|http)
-	update_wrapper_hosts;
-	exec $BROWSER $BROWSER_ARGS $SERVER_HTTP_URL
-	;;
-https)
-	update_wrapper_hosts;
-	exec $BROWSER $BROWSER_ARGS $SERVER_HTTPS_URL
-	;;
+""|http|https)
+	# Export variables only if nss_wraper is installed
+	if [ -f "$LD_PRELOAD" ]; then
+		export LD_PRELOAD
+		export NSS_WRAPPER_HOSTS
+		if [ -n "$(pidof firefox)" ]; then
+			echo "There are firefox processes running ..."
+			echo "If the script fails to launch close them and try again"
+		fi
+		update_wrapper_hosts;
+	fi
+	# Exec browser
+	if [ "$1" = "https" ]; then
+		exec $BROWSER $BROWSER_ARGS $SERVER_HTTPS_URL
+	else
+		exec $BROWSER $BROWSER_ARGS $SERVER_HTTP_URL
+	fi
+;;
 *)
 	echo "Usage: $0 [http|https]"
-	;;
+	exit 1
+;;
 esac
