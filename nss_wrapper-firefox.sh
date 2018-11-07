@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BROWSER="firefox"
-BROWSER_ARGS="--no-remote --private-window"
+BROWSER_ARGS="--private-window"
 
 HTTP_DOCKER_NAME="flask-cookie-jar-app"
 HTTPS_DOCKER_NAME="flask-cookie-jar-tls"
